@@ -35,7 +35,7 @@ public class User {
 	private String password;
 	
 	@OneToMany(mappedBy = "user")
-	@JsonBackReference("user-tickets")
+	@JsonManagedReference("user-tickets")
 	private List<Ticket> tickets;
 	
 	@OneToMany(mappedBy = "user")

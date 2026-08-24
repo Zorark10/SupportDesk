@@ -2,10 +2,13 @@ package com.project.SupportDesk.service;
 
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.SupportDesk.exception.UserNotFoundException;
+import com.project.SupportDesk.model.Role;
 import com.project.SupportDesk.model.User;
 import com.project.SupportDesk.repository.UserRepo;
 
@@ -14,7 +17,15 @@ public class UserService {
 	@Autowired
 	private UserRepo repo;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	public User addUser(User user) {
+		user.setRole(Role.USER);
+		String passString = user.getPassword();
+		String encodedPass = passwordEncoder.encode(passString);
+		user.setPassword(encodedPass);
+		
 		return repo.save(user);
 	}
 	

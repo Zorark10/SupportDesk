@@ -3,6 +3,7 @@ package com.project.SupportDesk.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -40,6 +41,7 @@ public class TicketController {
 		service.deleteTicket(id);
 	}
 	
+	@PreAuthorize("hasRole(\"ADMIN\")")
 	@PatchMapping("/ticket/update/{id}")
 	public TicketResponse updateTicket(@PathVariable Integer id, @RequestParam String subject, @RequestParam String description,
 			@RequestParam TicketStatus status, @RequestParam TicketPriority priority) {

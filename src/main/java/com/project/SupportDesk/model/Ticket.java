@@ -3,6 +3,7 @@ package com.project.SupportDesk.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -55,7 +56,7 @@ public class Ticket {
 	private TicketPriority priority;
 	
 	@ManyToOne
-	@JsonManagedReference("user-tickets")
+	@JsonBackReference("user-tickets")
 	private User user;
 	
 	@Builder.Default
