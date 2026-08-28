@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.SupportDesk.exception.UserNotFoundException;
 import com.project.SupportDesk.model.Role;
+import com.project.SupportDesk.model.Ticket;
 import com.project.SupportDesk.model.User;
 import com.project.SupportDesk.repository.UserRepo;
 
@@ -43,12 +46,23 @@ public class UserService {
 	}
 	
 	public void deleteUser(Integer id) {
+		String emaill = SecurityContextHolder.getContext().getAuthentication().getName();
+		User currUser = repo.findByEmail(emaill);
+		
+		if(currUser.getRole() != Role.ADMIN && !id.equals(currUser.getId())){
+			throw new AccessDeniedException("You cannot delete this user!");
+		}
 		repo.deleteById(id);
 	}
 	
 	public User updateUser(Integer id, String name, String email) throws Exception {
 		User currentUser = findById(id);
+		String emaill = SecurityContextHolder.getContext().getAuthentication().getName();
+		User currUser = repo.findByEmail(emaill);
 		
+		if(currUser.getRole() != Role.ADMIN && !id.equals(currUser.getId())){
+			throw new AccessDeniedException("You cannot update this user!");
+		}
 		currentUser.setName(name);
 		currentUser.setEmail(email);
 		return repo.save(currentUser);

@@ -36,6 +36,7 @@ public class TicketController {
 		return service.getAllTickets();
 	}
 	
+	@PreAuthorize("hasRole(\"ADMIN\")")
 	@DeleteMapping("/ticket/delete/{id}")
 	public void deleteTickets(@PathVariable Integer id) {
 		service.deleteTicket(id);
@@ -53,6 +54,7 @@ public class TicketController {
 		return service.createTicket(request);
 	}
 	
+	@PreAuthorize("hasRole(\"ADMIN\")")
 	@PatchMapping("/ticket/{ticketId}/status")
 	public TicketResponse updateTicketStatus(@PathVariable Integer ticketId, @RequestBody TicketStatus newStatus) {
 		return service.updateTicketStatus(ticketId, newStatus);

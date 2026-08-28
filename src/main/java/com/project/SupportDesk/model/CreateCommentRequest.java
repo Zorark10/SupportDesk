@@ -12,6 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class CreateCommentRequest {
-	private Integer userId;
+//	private Integer userId;
 	private String content;
 }

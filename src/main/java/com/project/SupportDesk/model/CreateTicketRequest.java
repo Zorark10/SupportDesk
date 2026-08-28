@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateTicketRequest {
 	private String subject, description;
-	private TicketStatus status;
+//	private TicketStatus status;
 	private TicketPriority priority;
-	private Integer userId;
+//	private Integer userId;
 }

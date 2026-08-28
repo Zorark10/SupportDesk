@@ -3,6 +3,7 @@ package com.project.SupportDesk.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
@@ -32,6 +33,8 @@ public class User {
 	
 	private String name;
 	private String email;
+	
+	@JsonIgnore
 	private String password;
 	
 	@OneToMany(mappedBy = "user")

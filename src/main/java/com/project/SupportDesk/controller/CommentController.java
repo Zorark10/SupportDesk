@@ -3,6 +3,7 @@ package com.project.SupportDesk.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,6 +28,7 @@ public class CommentController {
 		return service.createComment(request, ticketId);		
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/comments")
 	public List<Comment> getAll(){
 		return service.getAllComments();
@@ -39,6 +41,7 @@ public class CommentController {
 	
 	@DeleteMapping("/comment/{commentId}/delete")
 	public void deleteComment(@PathVariable Integer commentId) {
+		System.out.println("DELETE COMMENT CONTROLLER REACHED");
 		service.deleteComment(commentId);
 	}
 	

@@ -13,6 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.project.SupportDesk.service.JwtService;
 
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,8 +35,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 		String token = null;
 		String username = null;
 		if(auth != null && auth.startsWith("Bearer ")) {
+			try {
 			token = auth.substring(7);
 			username = jwtService.extractUsername(token);
+		}catch(JwtException je) {
+			username= null;	
+			}
 		}
 		if(username != null) {
 			UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -44,11 +49,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 				new UsernamePasswordAuthenticationToken(username, null, userDetails.getAuthorities());
 				
 				SecurityContextHolder.getContext().setAuthentication(authToken);
-				
 			}
 		}
 		filterChain.doFilter(request, response);
 	}
-	
-
 }
